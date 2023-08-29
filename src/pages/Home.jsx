@@ -1,4 +1,5 @@
 import ContentWrapper from '../componens/contentWrapper';
+import NavPages from '../componens/navegationPages'
 
 const Home = () => {
 
@@ -6,6 +7,7 @@ const Home = () => {
 
         <>
             <ContentWrapper/>
+            <NavPages/>
         </>
     )
 

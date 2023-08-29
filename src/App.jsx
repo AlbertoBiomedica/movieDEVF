@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 
 
+
 function App() {
   return (
     <>
@@ -15,7 +16,7 @@ function App() {
           <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
               <Navbar />
-              <RouterIndex />
+              <RouterIndex/>
             </div>
           </div>
         </div>

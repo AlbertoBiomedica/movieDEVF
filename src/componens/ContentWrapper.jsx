@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
-import Movie from "./movie";
-import axios from 'axios';
+
 
 // https://api.themoviedb.org/3/genre/movie/list?api_key=9b2c1cf9fb118a4d3fece49469282b85&language=es-ES
 
@@ -11,14 +10,13 @@ import axios from 'axios';
 const ContentWrapper = () => {
     const API_KEY = "9b2c1cf9fb118a4d3fece49469282b85"
     // const MOVIE_API = `https://api.themoviedb.org/3/discover/movie?api_key=`;
-    const MOVIE_API = `https://api.themoviedb.org/3/movie/`;
+    const MOVIE_API = `https://api.themoviedb.org/3/movie/popular?`;
     const IMAGE_PATH = "https://image.tmdb.org/t/p/w342"
 
-    let limit = 120;
+    let limit = 2;
     let offset = 1;
 
     const [movies, setMovies] = useState([]);
-    let [FiltroMovies, setFiltroMovies] = useState([]);
 
     // useEffect(() => {
     //     fetch(`${MOVIE_API}${API_KEY}`)
@@ -33,8 +31,6 @@ const ContentWrapper = () => {
 
     useEffect(() => {
         grupoMovies(offset, limit);
-        console.log(FiltroMovies)
-        // filtrarMoviesRotas();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [offset, limit])
 
@@ -81,61 +77,47 @@ const ContentWrapper = () => {
     //     return moviesFiltradas
     // }
 
+    // api_key=9b2c1cf9fb118a4d3fece49469282b85&page=2
+
     function traerMovie(id) {
-        const movie =
-            fetch(`${MOVIE_API}${id}?api_key=${API_KEY}`)
-                .then((respuesta) => {
-                    if (respuesta.ok) {
-                        return respuesta.json();
-                    }
-                })
-                .then((datos) => datos)
-                .catch(error => console.log(error));
-        return movie;
+        fetch(`${MOVIE_API}api_key=${API_KEY}&page=${id}`)
+            .then((respuesta) => {
+                if (respuesta.ok) {
+                    return respuesta.json();
+                }
+            })
+            .then((data) => {
+                console.log(data.results.length)
+                setMovies(data.results)
+            })
+            .catch(error => console.log(error));
     }
 
     function grupoMovies(offset, limit) {
-        // let aux = [];
-        let consultaMovie;
         for (let i = offset; i <= offset + limit; i++) {
-            consultaMovie = traerMovie(i);
-            consultaMovie.then((movie) => {
-                // console.log(movie)
-                setFiltroMovies(FiltroMovies.push(movie));
-            })
+            traerMovie(i);
         }
-        // console.log(moviesFiltradas)
-        // console.log(FiltroMovies)
-        // console.log(aux)
-        // setFiltroMovies(aux);
     }
 
-    function filtrarMoviesRotas(){
-        console.log(FiltroMovies);
-        const moviesFiltradas = FiltroMovies.filter((filtro) => {
-            return filtro !== undefined;
-        })
-        console.log(moviesFiltradas)
-    }
 
 
     return (
         <>
             <div className='d-flex flex-wrap p-1'>
-                { 
-                    // FiltroMovies.map((movie) => {
-                    //     if(movie !== null){
-                    //         return (
-                    //             <div className='col-12 col-md-3 col-lg-2' key={movie.title}>
-                    //                 <div className='card'>
-                    //                     <Link to={`/movie/${movie.id}`}>
-                    //                         <img src={IMAGE_PATH + movie.poster_path} className='card-img-top' alt={movie.title} />
-                    //                     </Link>
-                    //                 </div>
-                    //             </div>
-                    //         )
-                    //     }
-                    // })
+                {
+                    movies.map((movie) => {
+                        if (movie !== null) {
+                            return (
+                                <div className='col-12 col-md-3 col-lg-2' key={movie.title}>
+                                    <div className='card'>
+                                        <Link to={`/movie/${movie.id}`}>
+                                            <img src={IMAGE_PATH + movie.poster_path} className='card-img-top' alt={movie.title} />
+                                        </Link>
+                                    </div>
+                                </div>
+                            )
+                        }
+                    })
                 }
             </div>
         </>
