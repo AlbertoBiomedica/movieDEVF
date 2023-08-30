@@ -109,3 +109,19 @@ button:focus-visible {
 .videoMovie{
   height: 60vh;
 }
+
+.btn-inicio{
+  background-color: #4e73df;
+  border: none;
+}
+
+.fondo-list{
+  background-color: #4e73df;
+}
+.btn-inicio:hover{
+  background-color: #1414b8;
+  opacity: 0.5;
+}
+.btn-inicio:active{
+  background-color: #4e73df;
+}

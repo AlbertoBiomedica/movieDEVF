@@ -1,95 +1,72 @@
+/* eslint-disable react/prop-types */
 import ContentWrapper from '../componens/contentWrapper';
-// import NavPages from '../componens/navegationPages'
 import { useEffect, useState } from "react"
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useQuery } from "../hooks/useQuery";
-import {useParams} from 'react-router-dom';
+import Spiner from '../componens/spiner';
 
 const Home = () => {
-    const {id} = useParams();
-    console.log(id)
 
     // Constantes para consultar a la API movidDB
     const API_KEY = "9b2c1cf9fb118a4d3fece49469282b85"
     const MOVIE_API = `https://api.themoviedb.org/3/`;
 
-    // Constantes para manejar la busqueda mediante la url
     const query = useQuery();
     const search = query.get("search");
+    const genero = query.get("genero");
+    const inicio = query.get("inicio");
 
-    console.log(search);
 
     // Constante para definir el limite de la paginación
-    let limit = 2;
+    // let limit = 2;
 
     // constantes de estados para controla la paginación y guardar las peliculas traidas de la API
     const [movies, setMovies] = useState([]);
-    const [offset, setOffset] = useState(1);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
 
 
     useEffect(() => {
-        grupoMovies(offset, limit);
+        // grupoMovies(offset, limit);
+        traerMovie();
 
-        return() => setMovies([]);
+        // return () => setMovies([]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [search])
+    }, [search, genero, page])
 
     // Funciones para consultar las pelicualas de la api
-    function traerMovie(id) {
+    function traerMovie() {
+
+        console.log(page);
+        `movie/popular?&page=${page}`
         const searchUrl = search
-            ? "search/movie?query=" + search
-            : `movie/popular?&page=${id}`;
-            fetch(`${MOVIE_API}${searchUrl}&api_key=${API_KEY}`)
+            ? "search/movie?query=" + search + "&page=" + page
+            : genero ?`discover/movie?with_genres=${genero}&page=${page} `: inicio? `movie/popular?&page=${page}`:`movie/popular?&page=${page}`;
+        fetch(`${MOVIE_API}${searchUrl}&api_key=${API_KEY}&language=es-MX`)
             .then((respuesta) => {
                 if (respuesta.ok) {
                     return respuesta.json();
                 }
             })
             .then((data) => {
-                setMovies(data.results)
+                console.log(data)
+                setMovies((prevMovies) => prevMovies.concat(data.results));
+                setHasMore(data.page < data.total_pages);
             })
             .catch(error => console.log(error));
     }
 
-    function grupoMovies(offset, limit) {
-        for (let i = offset; i <= offset + limit; i++) {
-            traerMovie(i);
-        }
-    }
-
-    // Funciones para la paginación
-    function pre() {
-        if (offset != 1) {
-            let aux = offset;
-            aux -= 1;
-            setOffset(aux);
-            grupoMovies(offset, limit);
-        }
-
-    }
-
-    function next() {
-        let aux = offset;
-        aux += 1;
-        setOffset(aux)
-        grupoMovies(offset, limit);
-    }
-
 
     return (
-
         <>
-            <ContentWrapper movies={movies} />
-            <nav id="btnNavegacion" className="pagination p-3">
-                <ul className="pagination">
-                    <li className="page-item" id="previous">
-                        <button className='btn btn-warning' type="button"
-                            onClick={pre}>Anterior</button>
-                    </li>
-                    <li className="page-item" id="next">
-                        <button className='btn btn-warning' type="button" onClick={next}>Siguiente</button>
-                    </li>
-                </ul>
-            </nav>
+            <InfiniteScroll
+            dataLength={movies.length}
+            hasMore={hasMore}
+            next={() => setPage((prevPage) => prevPage + 1)}
+            loader={<Spiner/>}
+            >
+                <ContentWrapper movies={movies} />
+            </InfiniteScroll>
         </>
     )
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom'
 
@@ -7,7 +8,7 @@ import { Link } from 'react-router-dom'
 // import Movie from './movie'
 // import Youtube from 'react-youtube'
 
-const ContentWrapper = ({movies}) => {
+const ContentWrapper = ({ movies }) => {
     const IMAGE_PATH = "https://image.tmdb.org/t/p/w342"
 
     return (
@@ -15,6 +16,7 @@ const ContentWrapper = ({movies}) => {
             <div className='d-flex flex-wrap p-1'>
                 {
                     movies.map((movie) => {
+
                         return (
                             <div className='col-12 col-md-3 col-lg-2' key={movie.id}>
                                 <div className='card mb-3'>
