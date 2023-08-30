@@ -1,6 +1,30 @@
 import { Link } from 'react-router-dom'
+import GeneroMovie from './GeneroMovie';
+import { useEffect, useState } from "react"
 
 const Sidebar = () => {
+
+    const API_KEY = "9b2c1cf9fb118a4d3fece49469282b85"
+    const MOVIE_API = `https://api.themoviedb.org/3/genre/movie/list?api_key=`;
+
+    const [genero, setGenero] = useState([]);
+
+    useEffect(() => {
+        fetch(`${MOVIE_API}${API_KEY}`)
+            .then((respuesta) => {
+                if (respuesta.ok) {
+                    return respuesta.json();
+                }
+            })
+            .then((data) => {
+                setGenero(data.genres);
+            })
+            .catch(error => console.log(error));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+
+
     return (
         <>
             <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -15,6 +39,7 @@ const Sidebar = () => {
                 {/* <!-- Divider --> */}
                 <hr className="sidebar-divider my-0" />
 
+
                 {/* <!-- Nav Item - Dashboard --> */}
                 <li className="nav-item active">
                     <Link className="nav-link" to="/">
@@ -23,33 +48,27 @@ const Sidebar = () => {
                 </li>
 
                 {/* <!-- Divider --> */}
-                <hr className="sidebar-divider"/>
+                <hr className="sidebar-divider" />
 
-                    {/* <!-- Heading --> */}
-                    <div className="sidebar-heading">
-                        Interface
-                    </div>
+                {/* <!-- Heading --> */}
+                <div className="sidebar-heading">
+                    Interface
+                </div>
 
-                    {/* <!-- Nav Item - Utilities Collapse Menu --> */}
-                    <li className="nav-item">
-                        <a id="btnInscribirA" className="nav-link collapsed" href="inscribirse.html">
-                            <span>Acción</span>
-                        </a>
-                    </li>
+                {genero.map((genero) =>{
+                    return(
+                        <GeneroMovie id={genero.id} name={genero.name} key={genero.id}/>
+                    )
+                })}
 
-                    <li className="nav-item">
-                        <a className="nav-link collapsed" href="calificacionA.html">
-                            <span>Terror</span>
-                        </a>
-                    </li>
 
-                    {/* <!-- Divider --> */}
-                    <hr className="sidebar-divider"/>
+                {/* <!-- Divider --> */}
+                <hr className="sidebar-divider" />
 
-                    {/* <!-- Sidebar Toggler (Sidebar) --> */}
-                    <div className="text-center d-none d-md-inline">
-                        <button className="rounded-circle border-0" id="sidebarToggle"></button>
-                    </div>
+                {/* <!-- Sidebar Toggler (Sidebar) --> */}
+                <div className="text-center d-none d-md-inline">
+                    <button className="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
             </ul>
         </>
     )

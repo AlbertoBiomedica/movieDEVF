@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import {useParams} from 'react-router-dom';
 import Trailer from './ModalTrailer';
 
 
@@ -31,22 +31,6 @@ const Movie = () => {
         setNameVideo(nameVideo)
     }
 
-    useEffect(() => {
-        fetch(`${MOVIE_API}${id}?api_key=${API_KEY}&language=es-ES`)
-            .then(response => response.json())
-            .then(dataJson => {
-                console.log(dataJson)
-                fetchMovie(dataJson.id);
-                setMovieDetails(dataJson);
-                setGenero(dataJson.genres);
-                setCountry(dataJson.production_countries);
-                setCompanies(dataJson.production_companies);
-            }
-            )
-            .catch(error => console.log(error))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [API_KEY, MOVIE_API, id])
-
     const fetchMovie = async (id) => {
         const {data} = await axios.get(`${MOVIE_API}${id}`, {
             params: {
@@ -59,13 +43,28 @@ const Movie = () => {
             const trailer = data.videos.results.find(vid => vid.name === "Official Trailer")
             setVideo(trailer ? trailer : data.videos.results[0]);
         }
-        // setMovie(data)
     }
+
+    fetchMovie(id);
+
+    useEffect(() => {
+        fetch(`${MOVIE_API}${id}?api_key=${API_KEY}&language=es-ES`)
+            .then(response => response.json())
+            .then(dataJson => {
+                setMovieDetails(dataJson);
+                setGenero(dataJson.genres);
+                setCountry(dataJson.production_countries);
+                setCompanies(dataJson.production_companies);
+            }
+            )
+            .catch(error => console.log(error))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [API_KEY, MOVIE_API, id]);
+
 
 
     return (
         <>
-            {console.log(MovieDetails.id)}
             <div className='container'>
                 <div className="card mb-3 movie-card">
                     <div className="row g-0">
@@ -82,13 +81,13 @@ const Movie = () => {
                                         )
                                     })
                                 }
-                                <p className="card-text">{MovieDetails.overview}</p>
-                                <p className="card-text"><small className="text-body-secondary">{MovieDetails.tagline}</small></p>
+                                <p className="card-text" key={MovieDetails.overview}>{MovieDetails.overview}</p>
+                                <p className="card-text" key={MovieDetails.tagline}><small className="text-body-secondary">{MovieDetails.tagline}</small></p>
                                 <div className='d-flex justify-content-around flex-wrap pb-3'>
-                                    <p className="card-text"><i className="fa-regular fa-clock fa-bounce"></i> {MovieDetails.runtime} <span>Minutos</span> </p>
-                                    <p className="card-text"><i className="fa-solid fa-calendar-days fa-bounce"></i> {MovieDetails.release_date}</p>
-                                    <p className="card-text"><i className="fa-solid fa-star fa-bounce"></i> {MovieDetails.vote_average}</p>
-                                    <p className="card-text"><i className="fa-solid fa-user fa-bounce"></i> {MovieDetails.vote_count}</p>
+                                    <p className="card-text"><i className="fa-regular fa-clock fa-bounce" key={MovieDetails.runtime}></i> {MovieDetails.runtime} <span>Minutos</span> </p>
+                                    <p className="card-text" key={MovieDetails.release_date}><i className="fa-solid fa-calendar-days fa-bounce"></i> {MovieDetails.release_date}</p>
+                                    <p className="card-text" key={MovieDetails.vote_average}><i className="fa-solid fa-star fa-bounce"></i> {MovieDetails.vote_average}</p>
+                                    <p className="card-text" key={MovieDetails.vote_count}><i className="fa-solid fa-user fa-bounce"></i> {MovieDetails.vote_count}</p>
                                 </div>
                                 <div className='d-flex justify-content-around flex-wrap pb-3'>
                                     {
