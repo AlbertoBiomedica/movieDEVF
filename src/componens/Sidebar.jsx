@@ -2,6 +2,8 @@
 import GeneroMovie from './GeneroMovie';
 import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+
 
 const Sidebar = () => {
 
@@ -10,6 +12,8 @@ const Sidebar = () => {
 
     const [genero, setGenero] = useState([]);
     const [state, setState] = useState(false);
+
+    const [open, setOpen] = useState(true);
 
     useEffect(() => {
         fetch(`${MOVIE_API}${API_KEY}`)
@@ -80,10 +84,21 @@ const Sidebar = () => {
                 <hr className="sidebar-divider" />
 
                 {/* <!-- Sidebar Toggler (Sidebar) --> */}
+
                 <div className="text-center d-none d-md-inline">
-                    <button className="rounded-circle border-0" id="sidebarToggle"></button>
+                    <Button
+                        className='rounded-circle border-0'
+                        onClick={() => setOpen(!open)}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                        id='sidebarToggle'
+                    >
+
+                    </Button>
+                    {/* <button className="rounded-circle border-0" id="sidebarToggle"></button> */}
                 </div>
             </ul>
+
         </>
     )
 }

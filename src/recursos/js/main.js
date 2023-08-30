@@ -1,0 +1,1 @@
+Array.from().forEach(e => e.addEventListener("click", "a.scroll-to-top",function(e){var o=l(this);l("html, body").stop().animate({scrollTop:l(o.attr("href")).offset().top},1e3,"easeInOutExpo"),e.preventDefault()}))

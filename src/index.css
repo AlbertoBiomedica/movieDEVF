@@ -125,3 +125,7 @@ button:focus-visible {
 .btn-inicio:active{
   background-color: #4e73df;
 }
+.barra{
+  width: 90%;
+  margin: auto;
+}
