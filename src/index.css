@@ -111,21 +111,322 @@ button:focus-visible {
 }
 
 .btn-inicio{
-  background-color: #4e73df;
+  background-color: #2196f3;
   border: none;
 }
 
 .fondo-list{
-  background-color: #4e73df;
+  background-color: #2196f3;
 }
 .btn-inicio:hover{
-  background-color: #1414b8;
+  background-color: #2196f3;
   opacity: 0.5;
 }
 .btn-inicio:active{
-  background-color: #4e73df;
+  background-color: #2196f3;
 }
+
+
 .barra{
   width: 90%;
   margin: auto;
+}
+
+
+.nav-menu{
+  left: -100%;
+  transition: 850ms;
+}
+
+.nav-menu.active {
+  left: 0;
+  transition: 350ms;
+}
+
+.posicion-sidebar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+.posicion-navbar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  width: 100%;
+}
+
+.image-movie:hover{
+  opacity: 0.7;
+}
+
+.posicion-contenedor{
+  position: absolute;
+  top: 100px;
+  left: 16.5%;
+  margin: auto;
+}
+
+.posicion-contenedor2{
+  position: absolute;
+  top: 100px;
+  left: 0;
+  margin: auto;
+}
+
+.posicion-contenedor-movie{
+  position: absolute;
+  top: 100px;
+  left: 20%;
+  right: 10%;
+  margin: auto;
+}
+
+.posicion-contenedor2-movie{
+  position: absolute;
+  top: 100px;
+  left: 10%;
+  right: 10%;
+  margin: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .posicion-contenedor{
+    position: absolute;
+    top: 100px;
+    left: 25%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    margin: auto;
+  }
+
+  .posicion-contenedor-movie{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 10%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2-movie{
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    margin: auto;
+  }
+}
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  
+  /* CSS */
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .posicion-contenedor{
+    position: absolute;
+    top: 100px;
+    left: 23%;
+    right: 5%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    margin: auto;
+  }
+
+  .posicion-contenedor-movie{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 10%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2-movie{
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    margin: auto;
+  }
+  
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  
+  .posicion-contenedor{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 5%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    margin: auto;
+  }
+
+  .posicion-contenedor-movie{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 10%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2-movie{
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    margin: auto;
+  }
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  .posicion-contenedor{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 5%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    margin: auto;
+  }
+
+  .posicion-contenedor-movie{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 10%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2-movie{
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    margin: auto;
+  }
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  .posicion-contenedor{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 5%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    margin: auto;
+  }
+
+  .posicion-contenedor-movie{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 10%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2-movie{
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    margin: auto;
+  }
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  .posicion-contenedor{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 5%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    margin: auto;
+  }
+
+  .posicion-contenedor-movie{
+    position: absolute;
+    top: 100px;
+    left: 30%;
+    right: 10%;
+    margin: auto;
+  }
+  
+  .posicion-contenedor2-movie{
+    position: absolute;
+    top: 100px;
+    left: 10%;
+    margin: auto;
+  }
+  
 }

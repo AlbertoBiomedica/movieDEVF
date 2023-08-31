@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useQuery } from "../hooks/useQuery";
 import Spiner from '../componens/spiner';
 
-const Home = () => {
+const Home = ({sidebar}) => {
 
     // Constantes para consultar a la API movidDB
     const API_KEY = "9b2c1cf9fb118a4d3fece49469282b85"
@@ -16,10 +16,6 @@ const Home = () => {
     const genero = query.get("genero");
     const inicio = query.get("inicio");
 
-
-    // Constante para definir el limite de la paginación
-    // let limit = 2;
-
     // constantes de estados para controla la paginación y guardar las peliculas traidas de la API
     const [movies, setMovies] = useState([]);
     const [page, setPage] = useState(1);
@@ -27,17 +23,12 @@ const Home = () => {
 
 
     useEffect(() => {
-        // grupoMovies(offset, limit);
         traerMovie();
-
-        // return () => setMovies([]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search, genero, page])
 
     // Funciones para consultar las pelicualas de la api
     function traerMovie() {
-
-        console.log(page);
         `movie/popular?&page=${page}`
         const searchUrl = search
             ? "search/movie?query=" + search + "&page=" + page
@@ -49,7 +40,6 @@ const Home = () => {
                 }
             })
             .then((data) => {
-                console.log(data)
                 setMovies((prevMovies) => prevMovies.concat(data.results));
                 setHasMore(data.page < data.total_pages);
             })
@@ -59,7 +49,7 @@ const Home = () => {
 
     return (
         <>
-            <InfiniteScroll
+            <InfiniteScroll className={sidebar? 'posicion-contenedor2' : 'posicion-contenedor' }
             dataLength={movies.length}
             hasMore={hasMore}
             next={() => setPage((prevPage) => prevPage + 1)}

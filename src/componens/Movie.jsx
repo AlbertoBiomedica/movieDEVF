@@ -1,11 +1,36 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Trailer from './ModalTrailer';
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 
-const Movie = () => {
-    const {id} = useParams();
+
+
+// eslint-disable-next-line react/prop-types
+const Movie = ({ sidebar }) => {
+    const { id } = useParams();
+
+    const responsive = {
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 4,
+            slidesToSlide: 4 // optional, default to 1.
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 3,
+            slidesToSlide: 3 // optional, default to 1.
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1,
+            slidesToSlide: 1 // optional, default to 1.
+        }
+    };
 
     // Constantes para la consulta y acceso a la API 
     const API_KEY = "9b2c1cf9fb118a4d3fece49469282b85";
@@ -20,19 +45,20 @@ const Movie = () => {
     const [Video, setVideo] = useState("");
     const [keyVideo, setKeyVideo] = useState("");
     const [nameVideo, setNameVideo] = useState("");
+    const [nameActores, setNameActores] = useState([]);
 
     // Constantes para el modal
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = (keyVideo,nameVideo) => {
+    const handleShow = (keyVideo, nameVideo) => {
         setShow(true);
         setKeyVideo(keyVideo)
         setNameVideo(nameVideo)
     }
 
     const fetchMovie = async (id) => {
-        const {data} = await axios.get(`${MOVIE_API}${id}`, {
+        const { data } = await axios.get(`${MOVIE_API}${id}`, {
             params: {
                 api_key: API_KEY,
                 append_to_response: "videos"
@@ -48,7 +74,7 @@ const Movie = () => {
     fetchMovie(id);
 
     useEffect(() => {
-        fetch(`${MOVIE_API}${id}?api_key=${API_KEY}&language=es-ES`)
+        fetch(`${MOVIE_API}${id}?api_key=${API_KEY}&language=es-MX`)
             .then(response => response.json())
             .then(dataJson => {
                 setMovieDetails(dataJson);
@@ -57,15 +83,34 @@ const Movie = () => {
                 setCompanies(dataJson.production_companies);
             }
             )
-            .catch(error => console.log(error))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+            .catch(error => console.log(error));
+
+        fetch(`${MOVIE_API}${id}/credits?api_key=${API_KEY}&language=es-MX`)
+            .then(response => response.json())
+            .then(dataJson => {
+                setNameActores(dataJson.cast);
+            }
+            )
+            .catch(error => console.log(error));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [API_KEY, MOVIE_API, id]);
+
+    useEffect(() => {
+        fetch(`${MOVIE_API}${id}/credits?api_key=${API_KEY}&language=es-MX`)
+            .then(response => response.json())
+            .then(dataJson => {
+                setNameActores(dataJson.cast);
+            }
+            )
+            .catch(error => console.log(error));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [API_KEY, MOVIE_API, id]);
 
 
 
     return (
         <>
-            <div className='container'>
+            <div className={sidebar ? 'posicion-contenedor2-movie' : 'posicion-contenedor-movie'}>
                 <div className="card mb-3 movie-card">
                     <div className="row g-0">
                         <div className="col-12 col-md-4 col-lg-3">
@@ -108,14 +153,40 @@ const Movie = () => {
                                         })
                                     }
                                 </div>
-                                <button className='btn btn-warning my-3' type="button" onClick={() => handleShow(Video.key,MovieDetails.title)}> <i className="fa-solid fa-play"></i> Trailer</button>
+                                <button className='btn btn-warning my-3' type="button" onClick={() => handleShow(Video.key, MovieDetails.title)}> <i className="fa-solid fa-play"></i> Trailer</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+                <Carousel
+                    responsive={responsive}
+                >
+                    {nameActores.map((actor) => {
+                        return (
+                            <OverlayTrigger 
+                                placement="right"
+                                overlay={<Tooltip id="actor">
+                                    <p>Nombre: {actor.name}</p>
+                                    <p>Personaje: {actor.character}</p>
+                                    <p>Rol: {actor.known_for_department}</p>
+                                    </Tooltip>}
+                                key={actor.name}
+                            >
+                                <div className='contenedor-img-actor pb-3' id='actor'>
+                                    <img src={IMAGE_PATH + actor.profile_path} alt={actor.name} />
+                                </div>
+                            </OverlayTrigger>
+                        )
+                    })}
+                </Carousel>;
+
+
             </div>
-        
-        <Trailer show={show} handleClose={handleClose} keyVideo={keyVideo} nameVideo={nameVideo} />
+
+
+            <Trailer show={show} handleClose={handleClose} keyVideo={keyVideo} nameVideo={nameVideo} />
         </>
     );
 }

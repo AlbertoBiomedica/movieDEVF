@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Routes, Route } from 'react-router-dom'
 import Movie from '../componens/movie'
 import Home from '../pages/Home'
@@ -5,7 +6,7 @@ import { useQuery } from "../hooks/useQuery";
 import { useEffect, useState } from "react"
 // import Sidebar from '../componens/Sidebar'
 
-const RouterIndex = () => {
+const RouterIndex = ({sidebar}) => {
 
     // Constantes para manejar la busqueda mediante la url
     const query = useQuery();
@@ -36,8 +37,8 @@ const RouterIndex = () => {
 
     return (
         <Routes>
-            <Route path='/' element={<Home key={state}/>} />
-            <Route path='/movie/:id' element={<Movie/>} />
+            <Route path='/' element={<Home key={state} sidebar={sidebar}/>} />
+            <Route path='/movie/:id' element={<Movie sidebar={sidebar}/>} />
         </Routes>
     )
 }

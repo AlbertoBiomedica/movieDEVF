@@ -40,3 +40,27 @@
 .read-the-docs {
   color: #888;
 }
+
+.contenedor-img-actor img{
+  height: 15.625rem;;
+  object-fit: cover;
+}
+
+.sidebarPersonalizada{
+  height: 100vh;
+  width: 100%;
+  overflow: scroll;
+  border: none;
+  outline: none;
+}
+
+.btn-personalizado{
+  width: 100%;
+  color: white;
+  background-color: #2196f3;
+  outline: none;
+}
+
+.btn-personalizado:hover{
+  background-color: #335384;
+}

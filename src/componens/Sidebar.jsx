@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // import { Link } from 'react-router-dom'
 import GeneroMovie from './GeneroMovie';
 import { useEffect, useState } from "react"
@@ -5,15 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
 
-const Sidebar = () => {
+const Sidebar = ({ showSidebar }) => {
 
     const API_KEY = "9b2c1cf9fb118a4d3fece49469282b85"
     const MOVIE_API = `https://api.themoviedb.org/3/genre/movie/list?api_key=`;
 
     const [genero, setGenero] = useState([]);
     const [state, setState] = useState(false);
-
-    const [open, setOpen] = useState(true);
 
     useEffect(() => {
         fetch(`${MOVIE_API}${API_KEY}`)
@@ -37,7 +36,7 @@ const Sidebar = () => {
 
     return (
         <>
-            <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <ul className='navbar-nav fondo-list sidebar sidebar-dark posicion-sidebar'>
                 {/* <!-- Sidebar - Brand --> */}
                 <button className="sidebar-brand d-flex align-items-center justify-content-center btn-inicio" onClick={handleSearch}>
                     <div className="sidebar-brand-icon rotate-n-15">
@@ -66,39 +65,37 @@ const Sidebar = () => {
                 </div>
 
                 <div className="dropdown-center">
-                    <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button className="dropdown-toggle btn-personalizado" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Generos
                     </button>
-                    <ul className="dropdown-menu fondo-list">
+                    <ul className="dropdown-menu fondo-list sidebarPersonalizada">
                         {genero.map((genero) => {
                             return (
-                                <GeneroMovie className={"dropdown-item"} id={genero.id} name={genero.name} key={genero.id} />
+                                <>
+                                    <GeneroMovie className={"dropdown-item"} id={genero.id} name={genero.name} key={genero.id} />
+                                </>
                             )
                         })}
+
                     </ul>
-                </div>
+                </div >
 
 
 
                 {/* <!-- Divider --> */}
-                <hr className="sidebar-divider" />
+                < hr className="sidebar-divider" />
 
                 {/* <!-- Sidebar Toggler (Sidebar) --> */}
 
-                <div className="text-center d-none d-md-inline">
+                <div className="text-center d-md-inline" >
                     <Button
                         className='rounded-circle border-0'
-                        onClick={() => setOpen(!open)}
-                        aria-controls="example-collapse-text"
-                        aria-expanded={open}
-                        id='sidebarToggle'
+                        onClick={showSidebar}
+                        id="sidebarToggle"
                     >
-
                     </Button>
-                    {/* <button className="rounded-circle border-0" id="sidebarToggle"></button> */}
-                </div>
-            </ul>
-
+                </div >
+            </ul >
         </>
     )
 }
