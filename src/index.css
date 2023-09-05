@@ -429,5 +429,12 @@ button:focus-visible {
     margin: auto;
   }
 
+  .dropdown-menu{
+    min-width: 90%;
+    width: 100%;
+    overflow: scroll;
+    margin: auto;
+  }
+
   
 }
