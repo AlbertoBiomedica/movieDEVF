@@ -8,9 +8,12 @@ const GeneroMovie = ({name, id}) => {
         history("/?genero=" + id);
     }
 
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    }
     return (
         <>
-            <li className="nav-item" key={id}>
+            <li className="nav-item" key={getRandomArbitrary(0,id)}>
                 <button id="btnInscribirA" className="nav-link collapsed" onClick={handleSearch}>
                     <span>{name}</span>
                 </button>

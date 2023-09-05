@@ -6,6 +6,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { Link } from 'react-router-dom'
 
 
 
@@ -46,6 +47,7 @@ const Movie = ({ sidebar }) => {
     const [keyVideo, setKeyVideo] = useState("");
     const [nameVideo, setNameVideo] = useState("");
     const [nameActores, setNameActores] = useState([]);
+    const [similarmovie, setSimilarMovie] = useState([]);
 
     // Constantes para el modal
     const [show, setShow] = useState(false);
@@ -103,6 +105,14 @@ const Movie = ({ sidebar }) => {
             }
             )
             .catch(error => console.log(error));
+
+        fetch(`${MOVIE_API}${id}/similar?api_key=${API_KEY}&language=es-MX`)
+            .then(response => response.json())
+            .then(dataJson => {
+                setSimilarMovie(dataJson.results);
+            }
+            )
+            .catch(error => console.log(error));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [API_KEY, MOVIE_API, id]);
 
@@ -110,8 +120,8 @@ const Movie = ({ sidebar }) => {
 
     return (
         <>
-            <div className={sidebar ? 'posicion-contenedor2-movie' : 'posicion-contenedor-movie'}>
-                <div className="card mb-3 movie-card">
+            <div className={sidebar ? 'posicion-contenedor2-movie' : 'posicion-contenedor-movie movie'}>
+                <div className="card mb-3 movie-card fondoCard">
                     <div className="row g-0">
                         <div className="col-12 col-md-4 col-lg-3">
                             <img src={IMAGE_PATH + MovieDetails.poster_path} className="img-fluid rounded-start" alt={MovieDetails.title} />
@@ -159,19 +169,19 @@ const Movie = ({ sidebar }) => {
                     </div>
                 </div>
 
-
+                <h3>Actores</h3>
                 <Carousel
                     responsive={responsive}
                 >
                     {nameActores.map((actor) => {
                         return (
-                            <OverlayTrigger 
+                            <OverlayTrigger
                                 placement="right"
                                 overlay={<Tooltip id="actor">
                                     <p>Nombre: {actor.name}</p>
                                     <p>Personaje: {actor.character}</p>
                                     <p>Rol: {actor.known_for_department}</p>
-                                    </Tooltip>}
+                                </Tooltip>}
                                 key={actor.name}
                             >
                                 <div className='contenedor-img-actor pb-3' id='actor'>
@@ -182,8 +192,30 @@ const Movie = ({ sidebar }) => {
                     })}
                 </Carousel>;
 
+                <h3>Peliculas similares</h3>
+                <Carousel
+                    responsive={responsive}
+                >
+                    {similarmovie.map((Smovie) => {
+                        return (
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={<Tooltip id="Smovie">
+                                    <p>Nombre: {Smovie.title}</p>
+                                </Tooltip>}
+                                key={Smovie.name}
+                            >
+                                <div className='contenedor-img-actor pb-3' id='Smovie'>
+                                    <Link to={`/movie/${Smovie.id}`} className='image-movie'>
+                                        <img src={IMAGE_PATH + Smovie.poster_path} alt={Smovie.title} />
+                                    </Link>
+                                </div>
+                            </OverlayTrigger>
+                )
+                    })}
+            </Carousel>;
 
-            </div>
+        </div >
 
 
             <Trailer show={show} handleClose={handleClose} keyVideo={keyVideo} nameVideo={nameVideo} />

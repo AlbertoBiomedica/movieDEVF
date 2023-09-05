@@ -34,6 +34,10 @@ const Sidebar = ({ showSidebar }) => {
         history("/?inicio=" + state);
     }
 
+    function getRandomArbitrary(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
     return (
         <>
             <ul className='navbar-nav fondo-list sidebar sidebar-dark posicion-sidebar'>
@@ -50,7 +54,7 @@ const Sidebar = ({ showSidebar }) => {
 
 
                 {/* <!-- Nav Item - Dashboard --> */}
-                <li className="nav-item active">
+                <li className="nav-item active" key={getRandomArbitrary(0,100)}>
                     <button className="nav-link" onClick={handleSearch}>
                         <i className="fas fa-fw fa-tachometer-alt"></i>
                         <span>Home</span></button>
@@ -64,15 +68,15 @@ const Sidebar = ({ showSidebar }) => {
                     Interface
                 </div>
 
-                <div className="dropdown-center">
+                <div className="dropdown-center" key={getRandomArbitrary(100,1000)}>
                     <button className="dropdown-toggle btn-personalizado" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Generos
                     </button>
-                    <ul className="dropdown-menu fondo-list sidebarPersonalizada">
+                    <ul className="dropdown-menu fondo-list sidebarPersonalizada" key={getRandomArbitrary(1000, 100000)}>
                         {genero.map((genero) => {
                             return (
                                 <>
-                                    <GeneroMovie className={"dropdown-item"} id={genero.id} name={genero.name} key={genero.id} />
+                                    <GeneroMovie className={"dropdown-item"} id={genero.id} name={genero.name} key={getRandomArbitrary(0,genero.id)} />
                                 </>
                             )
                         })}

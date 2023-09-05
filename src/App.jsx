@@ -4,6 +4,7 @@ import RouterIndex from './routers/RouterIndex'
 import { BrowserRouter } from 'react-router-dom'
 import Navbar from './componens/Navbar'
 import {useEffect,useState } from "react"
+import Footer from './componens/Footer'
 
 // 
 
@@ -20,7 +21,8 @@ function App() {
     showSidebar
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[sidebar])
-  
+
+
 
   return (
     <>
@@ -33,6 +35,7 @@ function App() {
               <RouterIndex sidebar={sidebar}/>
             </div>
           </div>
+          <Footer/>
         </div>
       </BrowserRouter>
     </>
